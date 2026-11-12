@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso 02 — action HTTP absoluto</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .esperado { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
+    label { display: block; margin-top: 10px; }
+    input { padding: 6px; }
+    button { margin-top: 12px; padding: 8px 14px; }
+  </style>
+</head>
+<body>
+  <h1>Caso 02 — action HTTP absoluto</h1>
+
+  <p class="esperado"><strong>Resultado esperado:</strong> o envio é bloqueado pelo Content Script, com alerta na página.</p>
+
+  <p>O formulário aponta para <code>http://httpbin.org/post</code>, destino sem criptografia.</p>
+
+  <form action="http://httpbin.org/post" method="POST">
+    <label for="senha">Senha de teste</label>
+    <input type="password" id="senha" name="senha" value="senha-de-teste">
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p><a href="index.html">Voltar ao índice</a></p>
+</body>
+</html>

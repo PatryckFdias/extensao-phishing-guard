@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso 06 — formulário criado dinamicamente</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .esperado { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
+    label { display: block; margin-top: 10px; }
+    input { padding: 6px; }
+    button { margin-top: 12px; padding: 8px 14px; }
+    #area { margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Caso 06 — formulário criado dinamicamente</h1>
+
+  <p class="esperado"><strong>Resultado esperado:</strong> o envio é bloqueado. O formulário não existe no HTML inicial e é inserido no DOM depois do carregamento.</p>
+
+  <p>Após 2 segundos, um script cria um formulário com <code>action="http://httpbin.org/post"</code>.</p>
+
+  <div id="area"><em>Aguardando a criação do formulário…</em></div>
+
+  <p><a href="index.html">Voltar ao índice</a></p>
+
+  <script>
+    setTimeout(() => {
+      const area = document.getElementById("area");
+      area.innerHTML = "";
+
+      const form = document.createElement("form");
+      form.action = "http://httpbin.org/post";
+      form.method = "POST";
+
+      const label = document.createElement("label");
+      label.textContent = "Senha de teste";
+      label.setAttribute("for", "senha");
+
+      const input = document.createElement("input");
+      input.type = "password";
+      input.id = "senha";
+      input.name = "senha";
+      input.value = "senha-de-teste";
+
+      const botao = document.createElement("button");
+      botao.type = "submit";
+      botao.textContent = "Enviar";
+
+      form.appendChild(label);
+      form.appendChild(input);
+      form.appendChild(botao);
+      area.appendChild(form);
+    }, 2000);
+  </script>
+</body>
+</html>

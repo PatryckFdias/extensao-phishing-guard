@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso 03 — action vazio</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .esperado { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
+    label { display: block; margin-top: 10px; }
+    input { padding: 6px; }
+    button { margin-top: 12px; padding: 8px 14px; }
+  </style>
+</head>
+<body>
+  <h1>Caso 03 — action vazio</h1>
+
+  <p class="esperado"><strong>Resultado esperado:</strong> o envio é bloqueado. Com o atributo vazio, o destino passa a ser a própria página, servida por HTTP.</p>
+
+  <p>O formulário tem <code>action=""</code>. Este caso só é válido se a página estiver sendo servida por <code>http://localhost:8080</code>, e não aberta como arquivo local.</p>
+
+  <form action="" method="POST">
+    <label for="senha">Senha de teste</label>
+    <input type="password" id="senha" name="senha" value="senha-de-teste">
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p><a href="index.html">Voltar ao índice</a></p>
+</body>
+</html>

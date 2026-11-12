@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--
+  § TCC — Simulação do vetor de entrega (phishing por e-mail).
+  SIMULAÇÃO ACADÊMICA. Imita um e-mail de "segurança" do Bradesco, com os
+  sinais típicos de phishing: urgência, ameaça de bloqueio e um link enganoso
+  cujo texto parece oficial mas aponta para o site falso em localhost.
+  Serve para demonstrar a cadeia completa: e-mail -> clique -> site falso.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Bradesco - Aviso de Segurança</title>
+  <style>
+    /* § Estilo do e-mail, imitando uma mensagem institucional. */
+    body {
+      margin: 0;
+      background-color: #e9ebee;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #333333;
+    }
+    .caixa-email {
+      max-width: 620px;
+      margin: 32px auto;
+      background-color: #ffffff;
+      border: 1px solid #d4d4d4;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .cabecalho {
+      background-color: #cc092f;
+      color: #ffffff;
+      padding: 18px 28px;
+    }
+    .cabecalho .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .remetente {
+      padding: 16px 28px 0;
+      font-size: 13px;
+      color: #777777;
+      border-bottom: 1px solid #eeeeee;
+      padding-bottom: 14px;
+    }
+    .remetente strong {
+      color: #333333;
+    }
+    .corpo {
+      padding: 26px 28px;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    .corpo h1 {
+      font-size: 20px;
+      color: #cc092f;
+      margin: 0 0 16px;
+    }
+    .alerta {
+      background-color: #fff4f4;
+      border-left: 4px solid #cc092f;
+      padding: 12px 16px;
+      margin: 18px 0;
+      font-size: 14px;
+    }
+    .botao-conta {
+      display: inline-block;
+      margin: 20px 0;
+      padding: 14px 28px;
+      background-color: #cc092f;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    .link-texto {
+      font-size: 13px;
+      color: #666666;
+      word-break: break-all;
+    }
+    .link-texto a {
+      color: #1155cc;
+    }
+    .rodape {
+      padding: 18px 28px;
+      background-color: #f3f3f3;
+      font-size: 12px;
+      color: #999999;
+      line-height: 1.5;
+    }
+    .aviso-tcc {
+      max-width: 620px;
+      margin: 0 auto 32px;
+      padding: 10px 28px;
+      font-size: 12px;
+      color: #999999;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="caixa-email">
+    <div class="cabecalho">
+      <span class="logo">Bradesco</span>
+    </div>
+
+    <!-- § Remetente falsificado, outro sinal típico de phishing. -->
+    <div class="remetente">
+      De: <strong>Bradesco Segurança</strong> &lt;seguranca@bradesco-atendimento.com&gt;<br />
+      Para: você
+    </div>
+
+    <div class="corpo">
+      <h1>Detectamos um acesso suspeito na sua conta</h1>
+
+      <p>Prezado cliente,</p>
+
+      <p>
+        Nosso sistema identificou uma tentativa de acesso não reconhecida à sua
+        conta a partir de um novo dispositivo. Por motivo de segurança, é
+        necessário confirmar seus dados cadastrais.
+      </p>
+
+      <!-- § Urgência e ameaça: gatilhos clássicos de engenharia social. -->
+      <div class="alerta">
+        <strong>Atenção:</strong> caso a confirmação não seja feita em até
+        24 horas, sua conta será temporariamente bloqueada.
+      </div>
+
+      <p>Para regularizar, acesse agora o Internet Banking:</p>
+
+      <!--
+        § Link enganoso: o texto exibido parece o site oficial, mas o destino
+        real é o site falso em localhost. É a técnica central do phishing.
+      -->
+      <a class="botao-conta" href="http://localhost:9000/">Confirmar meus dados</a>
+
+      <p class="link-texto">
+        Ou copie e cole o endereço no navegador:<br />
+        <a href="http://localhost:9000/">https://banco.bradesco.com.br/acesso-seguro</a>
+      </p>
+
+      <p>Atenciosamente,<br />Central de Segurança Bradesco</p>
+    </div>
+
+    <div class="rodape">
+      Esta é uma mensagem automática. Por favor, não responda a este e-mail.
+      © Banco Bradesco S.A.
+    </div>
+  </div>
+
+  <!-- § Aviso de simulação acadêmica. -->
+  <div class="aviso-tcc">
+    Simulação acadêmica — Trabalho de Conclusão de Curso, Universidade Tuiuti do
+    Paraná. Este e-mail é fictício e não foi enviado pelo Bradesco.
+  </div>
+</body>
+</html>

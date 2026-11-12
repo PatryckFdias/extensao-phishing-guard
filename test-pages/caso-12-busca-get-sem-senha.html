@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso 12 — busca GET sem campo de senha</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .esperado { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
+    .aviso { padding: 10px 14px; border-left: 4px solid #e67e22; background: #fdf3e7; }
+    label { display: block; margin-top: 10px; }
+    input { padding: 6px; }
+    button { margin-top: 12px; padding: 8px 14px; }
+  </style>
+</head>
+<body>
+  <h1>Caso 12 — busca GET sem campo de senha</h1>
+
+  <p class="esperado"><strong>Resultado esperado:</strong> o envio é bloqueado. É o comportamento atual da ferramenta, que decide pelo protocolo do destino e não pelo tipo de dado enviado.</p>
+
+  <p class="aviso"><strong>Finalidade do caso:</strong> medir falso positivo. Uma busca pública por GET não expõe dado sensível, mas é bloqueada do mesmo modo que um formulário de credenciais. Este caso existe justamente para registrar essa imprecisão na análise de resultados.</p>
+
+  <p>Este é o único caso sem <code>input type="password"</code>, por definição: a ausência do campo sensível é o que está sendo testado. O formulário aponta para <code>http://httpbin.org/post</code>.</p>
+
+  <form action="http://httpbin.org/post" method="GET">
+    <label for="busca">Termo de busca</label>
+    <input type="text" id="busca" name="busca" value="notebook">
+    <button type="submit">Buscar</button>
+  </form>
+
+  <p><a href="index.html">Voltar ao índice</a></p>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso 10 — fetch() e XMLHttpRequest</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .esperado { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
+    .aviso { padding: 10px 14px; border-left: 4px solid #e67e22; background: #fdf3e7; }
+    label { display: block; margin-top: 10px; }
+    input { padding: 6px; }
+    button { margin-top: 12px; margin-right: 8px; padding: 8px 14px; }
+    .resultado { margin-top: 12px; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Caso 10 — fetch() e XMLHttpRequest</h1>
+
+  <p class="esperado"><strong>Resultado esperado:</strong> as duas requisições são bloqueadas pela regra de rede, antes de saírem do navegador.</p>
+
+  <p class="aviso"><strong>Atenção ao interpretar o resultado:</strong> a mensagem de erro exibida abaixo é a mesma com ou sem a extensão ativa, porque o JavaScript não consegue distinguir um bloqueio de uma falha de rede comum. A confirmação do bloqueio precisa ser feita na aba Rede do DevTools, onde a requisição aparece como <code>net::ERR_BLOCKED_BY_CLIENT</code>.</p>
+
+  <p>Ambos os botões enviam dados para <code>http://httpbin.org/post</code>.</p>
+
+  <label for="senha">Senha de teste</label>
+  <input type="password" id="senha" name="senha" value="senha-de-teste">
+
+  <div>
+    <button type="button" id="botao-fetch">Enviar por fetch()</button>
+    <button type="button" id="botao-xhr">Enviar por XMLHttpRequest</button>
+  </div>
+
+  <p class="resultado" id="resultado-fetch">fetch(): aguardando.</p>
+  <p class="resultado" id="resultado-xhr">XMLHttpRequest: aguardando.</p>
+
+  <p><a href="index.html">Voltar ao índice</a></p>
+
+  <script>
+    const senha = document.getElementById("senha");
+
+    document.getElementById("botao-fetch").addEventListener("click", async () => {
+      const saida = document.getElementById("resultado-fetch");
+      try {
+        const resposta = await fetch("http://httpbin.org/post", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ senha: senha.value }),
+        });
+        saida.textContent = "fetch(): concluído com status " + resposta.status + " (não foi bloqueado).";
+      } catch (erro) {
+        saida.textContent = "fetch(): falhou — " + erro.message + ". Confirme na aba Rede.";
+      }
+    });
+
+    document.getElementById("botao-xhr").addEventListener("click", () => {
+      const saida = document.getElementById("resultado-xhr");
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://httpbin.org/post");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onload = () => {
+        saida.textContent = "XMLHttpRequest: concluído com status " + xhr.status + " (não foi bloqueado).";
+      };
+      xhr.onerror = () => {
+        saida.textContent = "XMLHttpRequest: falhou. Confirme na aba Rede.";
+      };
+      xhr.send(JSON.stringify({ senha: senha.value }));
+    });
+  </script>
+</body>
+</html>

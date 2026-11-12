@@ -1,0 +1,123 @@
+/* §4.3 item 4 — Painel minimalista com cores semânticas (verde = protegido, vermelho = bloqueado) */
+
+:root {
+  --cor-seguro: #1e8e4f;
+  --cor-seguro-fundo: #e8f6ee;
+  --cor-perigo: #c0392b;
+  --cor-perigo-fundo: #fdecea;
+  --cor-neutro: #6b7280;
+  --cor-neutro-fundo: #f3f4f6;
+  --cor-texto: #1f2933;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 300px;
+  margin: 0;
+  padding: 16px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--cor-texto);
+  background: #fff;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.header__mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cor-seguro);
+}
+
+.header__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Cartão de status do domínio */
+.status {
+  padding: 16px;
+  border-radius: 10px;
+  text-align: center;
+  background: var(--cor-neutro-fundo);
+}
+
+.status__label {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cor-neutro);
+}
+
+.status__domain {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--cor-neutro);
+  word-break: break-all;
+}
+
+.status[data-state="safe"] {
+  background: var(--cor-seguro-fundo);
+}
+
+.status[data-state="safe"] .status__label {
+  color: var(--cor-seguro);
+}
+
+.status[data-state="danger"] {
+  background: var(--cor-perigo-fundo);
+}
+
+.status[data-state="danger"] .status__label {
+  color: var(--cor-perigo);
+}
+
+/* Cartão contador de formulários bloqueados */
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--cor-neutro-fundo);
+}
+
+.counter__value {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--cor-neutro);
+}
+
+.counter__label {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--cor-neutro);
+}
+
+.counter[data-state="blocked"] {
+  background: var(--cor-perigo-fundo);
+}
+
+.counter[data-state="blocked"] .counter__value,
+.counter[data-state="blocked"] .counter__label {
+  color: var(--cor-perigo);
+}
+
+.note {
+  margin: 12px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--cor-neutro);
+}

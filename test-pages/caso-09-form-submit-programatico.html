@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso 09 — envio programático com form.submit()</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .esperado { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
+    label { display: block; margin-top: 10px; }
+    input { padding: 6px; }
+    button { margin-top: 12px; padding: 8px 14px; }
+  </style>
+</head>
+<body>
+  <h1>Caso 09 — envio programático com form.submit()</h1>
+
+  <p class="esperado"><strong>Resultado esperado:</strong> o envio é bloqueado pela regra de rede, e não pelo Content Script. O método <code>form.submit()</code> não dispara o evento <code>submit</code>, então a auditoria do DOM não é acionada e nenhum alerta aparece na página.</p>
+
+  <p>O botão abaixo não é do tipo <code>submit</code>: ele chama o método diretamente por JavaScript. O formulário aponta para <code>http://httpbin.org/post</code>.</p>
+
+  <p>A confirmação do bloqueio é feita na aba Rede do DevTools, onde a requisição deve aparecer como <code>net::ERR_BLOCKED_BY_CLIENT</code>.</p>
+
+  <form id="formulario" action="http://httpbin.org/post" method="POST">
+    <label for="senha">Senha de teste</label>
+    <input type="password" id="senha" name="senha" value="senha-de-teste">
+  </form>
+
+  <button type="button" id="botao">Enviar por form.submit()</button>
+
+  <p><a href="index.html">Voltar ao índice</a></p>
+
+  <script>
+    document.getElementById("botao").addEventListener("click", () => {
+      document.getElementById("formulario").submit();
+    });
+  </script>
+</body>
+</html>

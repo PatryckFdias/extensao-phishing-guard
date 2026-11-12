@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso 05 — action trocado por JavaScript no clique</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .esperado { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
+    label { display: block; margin-top: 10px; }
+    input { padding: 6px; }
+    button { margin-top: 12px; padding: 8px 14px; }
+  </style>
+</head>
+<body>
+  <h1>Caso 05 — action trocado por JavaScript no clique</h1>
+
+  <p class="esperado"><strong>Resultado esperado:</strong> o envio é bloqueado. A auditoria lê o atributo no momento da submissão, e não no carregamento da página.</p>
+
+  <p>No HTML, o formulário aponta para <code>https://httpbin.org/post</code>. Um script troca o destino para <code>http://httpbin.org/post</code> durante o clique, antes do envio.</p>
+
+  <form id="formulario" action="https://httpbin.org/post" method="POST">
+    <label for="senha">Senha de teste</label>
+    <input type="password" id="senha" name="senha" value="senha-de-teste">
+    <button type="submit" id="botao">Enviar</button>
+  </form>
+
+  <p><a href="index.html">Voltar ao índice</a></p>
+
+  <script>
+    document.getElementById("botao").addEventListener("click", () => {
+      document.getElementById("formulario").action = "http://httpbin.org/post";
+    });
+  </script>
+</body>
+</html>

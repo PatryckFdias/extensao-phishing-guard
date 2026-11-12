@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardião Web</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- §4.3 item 4 — Painel de informações acessível pelo ícone da extensão -->
+  <header class="header">
+    <span class="header__mark" aria-hidden="true"></span>
+    <h1 class="header__title">Guardião Web</h1>
+  </header>
+
+  <!-- Status de segurança do domínio da aba atual -->
+  <section class="status" id="status-card" data-state="loading">
+    <p class="status__label" id="status-label">Verificando…</p>
+    <p class="status__domain" id="status-domain">—</p>
+  </section>
+
+  <!-- Contador de formulários inseguros (HTTP) bloqueados na página -->
+  <section class="counter" id="counter-card" data-state="clean">
+    <p class="counter__value" id="counter-value">0</p>
+    <p class="counter__label" id="counter-label">formulário inseguro bloqueado</p>
+  </section>
+
+  <p class="note" id="note">Nenhum envio por HTTP foi detectado nesta página.</p>
+
+  <script src="popup.js"></script>
+</body>
+</html>

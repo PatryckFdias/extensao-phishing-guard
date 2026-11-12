@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Páginas de teste — Cenário 2 (auditoria de formulários)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    .aviso { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
+    ol { padding-left: 22px; }
+    li { margin-bottom: 10px; }
+    .esperado { color: #555; font-size: 0.9rem; }
+    .bloqueia { color: #c0392b; }
+    .permite { color: #1e8e4f; }
+    h2 { font-size: 1rem; margin-top: 28px; }
+  </style>
+</head>
+<body>
+  <h1>Páginas de teste — Cenário 2</h1>
+
+  <p>Casos de validação da auditoria de formulários da extensão Guardião Web (§4.5 do TCC).</p>
+
+  <p class="aviso">As páginas precisam ser servidas por HTTP local, em <code>http://localhost:8080</code>. Abertas como arquivo (<code>file://</code>), os casos de destino relativo não funcionam e o Chrome não injeta o Content Script. Veja o <a href="LEIA-ME.md">LEIA-ME.md</a>.</p>
+
+  <h2>Página inicial de referência</h2>
+  <ol start="0">
+    <li>
+      <a href="caso-00-basico.html">caso-00-basico.html</a> — os três cenários originais em uma página só
+      <div class="esperado">Permite o HTTPS, bloqueia o HTTP e bloqueia a requisição por <code>fetch()</code>.</div>
+    </li>
+  </ol>
+
+  <h2>Casos individuais</h2>
+  <ol>
+    <li>
+      <a href="caso-01-action-https.html">caso-01-action-https.html</a> — <code>action</code> HTTPS
+      <div class="esperado permite">Esperado: permite.</div>
+    </li>
+    <li>
+      <a href="caso-02-action-http-absoluto.html">caso-02-action-http-absoluto.html</a> — <code>action</code> HTTP absoluto
+      <div class="esperado bloqueia">Esperado: bloqueia pelo Content Script, com alerta na página.</div>
+    </li>
+    <li>
+      <a href="caso-03-action-vazio.html">caso-03-action-vazio.html</a> — <code>action</code> vazio
+      <div class="esperado bloqueia">Esperado: bloqueia. O destino passa a ser a própria página, servida por HTTP.</div>
+    </li>
+    <li>
+      <a href="caso-04-action-relativo.html">caso-04-action-relativo.html</a> — <code>action</code> relativo
+      <div class="esperado bloqueia">Esperado: bloqueia. O caminho é resolvido contra a URL HTTP da página.</div>
+    </li>
+    <li>
+      <a href="caso-05-action-alterado-js.html">caso-05-action-alterado-js.html</a> — <code>action</code> trocado por JavaScript no clique
+      <div class="esperado bloqueia">Esperado: bloqueia. A leitura ocorre na submissão, não no carregamento.</div>
+    </li>
+    <li>
+      <a href="caso-06-form-dinamico.html">caso-06-form-dinamico.html</a> — formulário criado após 2 segundos
+      <div class="esperado bloqueia">Esperado: bloqueia. Formulário ausente do HTML inicial.</div>
+    </li>
+    <li>
+      <a href="caso-07-formaction-botao.html">caso-07-formaction-botao.html</a> — <code>formaction</code> HTTP no botão
+      <div class="esperado bloqueia">Esperado: bloqueia. O atributo do botão prevalece sobre o do formulário.</div>
+    </li>
+    <li>
+      <a href="caso-08-envio-com-enter.html">caso-08-envio-com-enter.html</a> — envio com a tecla Enter
+      <div class="esperado bloqueia">Esperado: bloqueia. Submissão implícita pelo teclado.</div>
+    </li>
+    <li>
+      <a href="caso-09-form-submit-programatico.html">caso-09-form-submit-programatico.html</a> — <code>form.submit()</code> por JavaScript
+      <div class="esperado bloqueia">Esperado: bloqueia pela regra de rede, sem alerta visual. O evento <code>submit</code> não é disparado.</div>
+    </li>
+    <li>
+      <a href="caso-10-fetch-xhr.html">caso-10-fetch-xhr.html</a> — <code>fetch()</code> e <code>XMLHttpRequest</code>
+      <div class="esperado bloqueia">Esperado: bloqueia pela regra de rede. Confirmar na aba Rede do DevTools.</div>
+    </li>
+    <li>
+      <a href="caso-11-iframe-srcdoc.html">caso-11-iframe-srcdoc.html</a> — formulário dentro de <code>iframe</code>
+      <div class="esperado bloqueia">Esperado: bloqueia. Se passar, registrar como limitação conhecida.</div>
+    </li>
+    <li>
+      <a href="caso-12-busca-get-sem-senha.html">caso-12-busca-get-sem-senha.html</a> — busca GET sem campo de senha
+      <div class="esperado bloqueia">Esperado: bloqueia. Caso destinado a medir falso positivo.</div>
+    </li>
+  </ol>
+</body>
+</html>
