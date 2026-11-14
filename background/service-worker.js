@@ -1,18 +1,12 @@
-// §2.4 / §4.3 item 3 — Service Worker: consulta Safe Browsing, cache e decisão híbrida.
 import { SAFE_BROWSING_API_KEY } from "../config.js";
 
-const CACHE_TTL_MS = 60 * 60 * 1000; // §2.6 — cache temporário (1 hora, não especificado no doc)
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1h pra não repetir a consulta
 const CACHE_STORAGE_KEY = "safeBrowsingCache";
 const TAB_STATE_PREFIX = "tabState:";
 
-// §4.4 — Listas de ameaças consultadas na API v4.
 const THREAT_TYPES = ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE"];
 
-/**
- * §2.6 Figura 7 / §4.4 — Consulta na nuvem via API Google Safe Browsing.
- * Falhas de rede ou da API não interrompem a extensão: o retorno "unknown"
- * devolve a decisão para a auditoria local do DOM.
- */
+// Se a consulta falhar, a auditoria local continua.
 async function querySafeBrowsing(url) {
   const endpoint = `https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${SAFE_BROWSING_API_KEY}`;
 
@@ -51,10 +45,7 @@ async function querySafeBrowsing(url) {
   }
 }
 
-/**
- * §2.6 — Cache local temporário para reduzir chamadas repetidas.
- * A chave é o hash SHA-256 da URL, para não guardar o histórico de navegação em texto puro.
- */
+// O hash evita gravar a URL em texto puro.
 async function cacheKeyFor(url) {
   const data = new TextEncoder().encode(url);
   const digest = await crypto.subtle.digest("SHA-256", data);
@@ -100,10 +91,7 @@ async function setCachedResult(url, result) {
   await chrome.storage.local.set({ [CACHE_STORAGE_KEY]: cache });
 }
 
-/**
- * §2.6 Figura 7 — Modelo de decisão híbrido (consulta nuvem).
- * Malicioso → bloqueio imediato. Seguro/desconhecido → auditoria local decide.
- */
+// Decisão híbrida (§2.6, Figura 7). Sem ameaça na lista, vale a auditoria local.
 async function evaluateUrl(url) {
   const cached = await getCachedResult(url);
   if (cached) {
@@ -112,7 +100,7 @@ async function evaluateUrl(url) {
 
   const apiResult = await querySafeBrowsing(url);
 
-  // Resultados inconclusivos não entram em cache, para permitir nova tentativa.
+  // Com "unknown", tenta de novo na próxima consulta.
   if (apiResult.status !== "unknown") {
     await setCachedResult(url, apiResult);
   }
@@ -120,9 +108,6 @@ async function evaluateUrl(url) {
   return apiResult;
 }
 
-/**
- * §4.3 item 4 — Estado por aba que alimenta o painel do popup.
- */
 function emptyTabState(hostname = "") {
   return {
     hostname,
@@ -145,9 +130,6 @@ async function writeTabState(tabId, state) {
   await chrome.storage.session.set({ [key]: { ...state, updatedAt: Date.now() } });
 }
 
-/**
- * §4.3 item 4 — Badge do ícone reflete o número de bloqueios da aba.
- */
 async function refreshBadge(tabId, state) {
   const text = state.malicious
     ? "!"
@@ -159,9 +141,6 @@ async function refreshBadge(tabId, state) {
   await chrome.action.setBadgeText({ tabId, text });
 }
 
-/**
- * §2.4 — Sistema de mensagens entre Content Script, Service Worker e popup.
- */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const tabId = sender.tab?.id;
 
