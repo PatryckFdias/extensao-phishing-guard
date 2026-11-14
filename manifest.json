@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Guardião Web - Anti-Phishing e Auditoria de Formulários",
   "version": "1.0.0",
-  "description": "Extensão MV3 para prevenção de phishing via Google Safe Browsing e auditoria de formulários web (TCC PG2).",
+  "description": "Extensão MV3 do TCC PG2. Consulta o Google Safe Browsing e bloqueia envios de formulários para destinos HTTP.",
   "permissions": [
     "activeTab",
     "declarativeNetRequest",

@@ -1,4 +1,4 @@
-/* §4.3 item 4 — Painel minimalista com cores semânticas (verde = protegido, vermelho = bloqueado) */
+/* Cores do painel */
 
 :root {
   --cor-seguro: #1e8e4f;

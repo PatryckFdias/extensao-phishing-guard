@@ -1,4 +1,4 @@
-// §4.3 item 4 — Popup: traduz o resultado das verificações em linguagem não técnica.
+// Resumo da aba atual.
 
 const statusCard = document.getElementById("status-card");
 const statusLabel = document.getElementById("status-label");
@@ -12,7 +12,7 @@ const note = document.getElementById("note");
 function paintStatus(state, label, domain) {
   statusCard.dataset.state = state;
   statusLabel.textContent = label;
-  statusDomain.textContent = domain || "—";
+  statusDomain.textContent = domain || "-";
   headerMark.style.background =
     state === "danger" ? "var(--cor-perigo)" : state === "safe" ? "var(--cor-seguro)" : "var(--cor-neutro)";
 }
@@ -33,7 +33,7 @@ async function loadPopupData() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
   if (!tab?.id) {
-    paintStatus("loading", "Sem aba ativa", "—");
+    paintStatus("loading", "Sem aba ativa", "-");
     paintCounter(0, null);
     return;
   }
@@ -67,7 +67,7 @@ async function loadPopupData() {
   } else if (state.safeBrowsing === "unknown") {
     paintStatus("loading", "Não foi possível verificar", domain);
   } else {
-    paintStatus("loading", "Verificando…", domain);
+    paintStatus("loading", "Verificando...", domain);
   }
 
   paintCounter(state.blockedForms || 0, state.lastBlockedDestination);
