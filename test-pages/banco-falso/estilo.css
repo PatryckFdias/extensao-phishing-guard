@@ -26,7 +26,7 @@ body {
   min-height: 100vh;
 }
 
-/* § Cabeçalho vermelho característico do banco. */
+/* Cabeçalho vermelho característico do banco. */
 .topo {
   background-color: var(--bradesco-vermelho);
   color: #ffffff;
@@ -58,7 +58,7 @@ body {
   text-decoration: underline;
 }
 
-/* § Área central com o cartão de login. */
+/* Área central com o cartão de login. */
 .miolo {
   flex: 1;
   display: flex;
@@ -89,7 +89,7 @@ body {
   color: #666666;
 }
 
-/* § Formulário de credenciais. */
+/* Formulário de credenciais. */
 .formulario label {
   display: block;
   font-size: 13px;
@@ -154,7 +154,7 @@ body {
   text-decoration: underline;
 }
 
-/* § Rodapé do aviso acadêmico. */
+/* Rodapé do aviso acadêmico. */
 .rodape {
   background-color: #eaeaea;
   color: #777777;

