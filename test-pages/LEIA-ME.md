@@ -1,8 +1,7 @@
-# Páginas de teste — Cenário 2 (auditoria de formulários)
+# Páginas de teste: Cenário 2 (auditoria de formulários)
 
-Casos de validação da extensão Guardião Web, referentes ao Cenário 2 descrito na
-Seção 4.5 do TCC. Nenhum arquivo desta pasta faz parte da extensão: são apenas
-páginas de apoio aos testes.
+Use estas páginas para testar a auditoria de formulários do Guardião Web
+(Cenário 2, Seção 4.5 do TCC). Elas servem apenas aos testes.
 
 ## Como servir as páginas
 
@@ -14,26 +13,22 @@ Depois, abra `http://localhost:8080` no navegador.
 
 ## Por que os testes precisam rodar em página HTTP
 
-Abrir os arquivos diretamente pelo explorador, no esquema `file://`, invalida
-parte dos casos. O Chrome não injeta Content Scripts em `file://` sem que a
-opção *Permitir acesso a URLs de arquivo* esteja ativada na página da extensão.
-Além disso, os casos 03 e 04 dependem de um destino resolvido contra a URL da
-página: só servida por `http://localhost:8080` é que o `action` vazio ou
-relativo resulta em um endereço HTTP, que é exatamente o que se quer auditar.
+Nos casos 03 e 04, o navegador usa a URL da página para resolver o `action`
+vazio ou relativo. Abra os casos em `http://localhost:8080` para que o destino
+seja HTTP. Se você abrir um arquivo pelo explorador (`file://`), o destino muda.
+Em `file://`, o Chrome também exige a opção *Permitir acesso a URLs de arquivo*
+para injetar o Content Script.
 
 ## Teste de controle
 
-Cada caso deve ser executado duas vezes: uma com a extensão ativa e outra com
-ela desativada em `chrome://extensions`. Sem essa comparação não é possível
-afirmar que o comportamento observado veio da ferramenta, e não do próprio
-navegador ou da indisponibilidade do destino.
+Execute cada caso duas vezes. Rode primeiro com a extensão ativa, desative-a em
+`chrome://extensions` e repita. Compare os resultados para distinguir o efeito
+da extensão do comportamento do navegador ou de uma falha no destino.
 
-A comparação é indispensável nos casos 09, 10 e 11, nos quais o bloqueio ocorre
-na camada de rede e não produz alerta visual. Nesses casos, a mensagem de erro
-exibida na página é idêntica com ou sem a extensão, porque o JavaScript não
-distingue um bloqueio de uma falha de rede comum. A confirmação é feita na aba
-Rede das ferramentas de desenvolvimento: com a extensão ativa, a requisição
-aparece como `net::ERR_BLOCKED_BY_CLIENT`.
+Nos casos 09, 10 e 11, confira a aba Rede das ferramentas de desenvolvimento.
+O bloqueio de rede não gera alerta na página, e o JavaScript recebe o mesmo
+erro de uma falha de rede comum. Com a extensão ativa, procure
+`net::ERR_BLOCKED_BY_CLIENT` na requisição e compare com o controle.
 
 ## Lista de casos
 
@@ -55,12 +50,10 @@ aparece como `net::ERR_BLOCKED_BY_CLIENT`.
 
 ## Observações sobre dois casos
 
-O caso 11 depende de a extensão alcançar o conteúdo do `iframe`. Como o manifesto
-não declara injeção em subquadros, o Content Script tende a não auditar esse
-formulário, restando o bloqueio pela camada de rede. Se o envio for concluído, o
-resultado deve ser registrado como limitação conhecida, e não como falha do teste.
+No caso 11, o manifesto não declara injeção em subquadros. O formulário do
+`iframe` depende do bloqueio de rede. Se o envio passar, registre a limitação
+conhecida de cobertura do `iframe`.
 
-O caso 12 é o único sem `input type="password"`, por definição: a ausência do
-campo sensível é justamente o que está sendo avaliado. Uma busca pública por GET
-não expõe credenciais, mas é bloqueada do mesmo modo, porque a decisão da
-ferramenta considera o protocolo do destino e não o tipo de dado enviado.
+O caso 12 é o único sem `input type="password"`. A busca pública por GET não
+envia credenciais. O destino HTTP basta para a extensão bloquear o envio.
+Este caso mede esse falso positivo.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cenário 2 — Auditoria de Formulários</title>
+  <title>Cenário 2: Auditoria de Formulários</title>
   <style>
     body {
       font-family: system-ui, sans-serif;
@@ -54,57 +54,56 @@
   </style>
 </head>
 <body>
-  <h1>Cenário 2 — Auditoria de Formulários (§4.5)</h1>
+  <h1>Cenário 2: Auditoria de Formulários (§4.5)</h1>
   <p>Páginas locais para validar bloqueio de envios inseguros via HTTP.</p>
 
   <!--
-    CENÁRIO DE PERMISSÃO (§4.5 — fluxo seguro)
+    CENÁRIO DE PERMISSÃO (fluxo seguro)
     Formulário com destino HTTPS. A extensão deve permitir o envio,
     pois o action utiliza protocolo criptografado.
   -->
   <section id="cenario-permissao">
     <h2>1. Cenário de Permissão</h2>
-    <p>Formulário com <code>action="https://httpbin.org/post"</code> — envio deve ser permitido.</p>
+    <p>Formulário com <code>action="https://httpbin.org/post"</code>: envio deve ser permitido.</p>
     <form action="https://httpbin.org/post" method="POST">
       <label>
         Usuário de teste:
         <input type="text" name="usuario" value="teste-seguro">
       </label>
-      <input type="submit" value="Enviar (HTTPS — permitido)">
+      <input type="submit" value="Enviar (HTTPS - permitido)">
     </form>
   </section>
 
   <!--
-    CENÁRIO DE BLOQUEIO ESTÁTICO (§4.5 — auditoria DOM)
+    CENÁRIO DE BLOQUEIO ESTÁTICO (auditoria DOM)
     Formulário com action HTTP explícito. O Content Script deve interceptar
     o evento submit e bloquear o envio antes dos dados saírem do navegador.
   -->
   <section id="cenario-bloqueio-estatico">
     <h2>2. Cenário de Bloqueio Estático</h2>
-    <p>Formulário com <code>action="http://httpbin.org/post"</code> — submit deve ser bloqueado.</p>
+    <p>Formulário com <code>action="http://httpbin.org/post"</code>: submit deve ser bloqueado.</p>
     <form action="http://httpbin.org/post" method="POST">
       <label>
         Senha de teste:
         <input type="text" name="senha" value="dado-sensivel">
       </label>
-      <input type="submit" value="Enviar (HTTP — deve bloquear)">
+      <input type="submit" value="Enviar (HTTP - deve bloquear)">
     </form>
   </section>
 
   <!--
-    CENÁRIO DE BLOQUEIO DINÂMICO (§2.2 — camada de rede MV3)
+    CENÁRIO DE BLOQUEIO DINÂMICO (camada de rede MV3, §2.2)
     Requisição via Fetch API para endpoint HTTP. A regra declarativeNetRequest
     deve bloquear o tráfego inseguro independentemente do método utilizado.
   -->
   <section id="cenario-bloqueio-dinamico">
     <h2>3. Cenário de Bloqueio Dinâmico</h2>
-    <p>Botão dispara <code>fetch()</code> para <code>http://httpbin.org/post</code> — rede deve bloquear.</p>
+    <p>Botão dispara <code>fetch()</code> para <code>http://httpbin.org/post</code>: rede deve bloquear.</p>
     <button type="button" id="btn-fetch-http">Disparar fetch HTTP</button>
     <p id="fetch-result">Resultado aparecerá aqui.</p>
   </section>
 
   <script>
-    // §2.2 — Teste de bloqueio dinâmico via Fetch API (declarativeNetRequest)
     document.getElementById("btn-fetch-http").addEventListener("click", async () => {
       const resultEl = document.getElementById("fetch-result");
 

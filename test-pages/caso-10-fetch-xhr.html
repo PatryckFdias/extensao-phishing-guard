@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Caso 10 — fetch() e XMLHttpRequest</title>
+  <title>Caso 10: fetch() e XMLHttpRequest</title>
   <style>
     body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
     .esperado { padding: 10px 14px; border-left: 4px solid #555; background: #f3f4f6; }
@@ -14,7 +14,7 @@
   </style>
 </head>
 <body>
-  <h1>Caso 10 — fetch() e XMLHttpRequest</h1>
+  <h1>Caso 10: fetch() e XMLHttpRequest</h1>
 
   <p class="esperado"><strong>Resultado esperado:</strong> as duas requisições são bloqueadas pela regra de rede, antes de saírem do navegador.</p>
 
@@ -48,7 +48,7 @@
         });
         saida.textContent = "fetch(): concluído com status " + resposta.status + " (não foi bloqueado).";
       } catch (erro) {
-        saida.textContent = "fetch(): falhou — " + erro.message + ". Confirme na aba Rede.";
+        saida.textContent = "fetch() falhou: " + erro.message + ". Confirme na aba Rede.";
       }
     });
 
