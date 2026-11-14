@@ -1,18 +1,13 @@
-// §2.4 / §4.3 item 2 — Content Script: auditoria DOM, interceptação de submit e alertas.
-
 const PHISHING_TITLE = "Site identificado como perigoso";
 const PHISHING_MESSAGE =
-  "Este domínio consta em listas de ameaças conhecidas (phishing, malware ou engenharia social). Recomendamos abandonar a navegação nesta página.";
+  "Este domínio aparece em listas de phishing, malware ou engenharia social. Recomendamos sair desta página.";
 
 const FORM_BLOCK_TITLE = "Envio bloqueado";
 const FORM_BLOCK_MESSAGE =
-  "O destino deste formulário utiliza HTTP sem criptografia. Seus dados sensíveis não serão transmitidos.";
+  "Este formulário tenta enviar dados por HTTP, sem criptografia. O envio foi bloqueado.";
 
 let pageBlocked = false;
 
-/**
- * §4.3 item 4 — Exibe alerta visual in-page.
- */
 function showAlert(title, message, detail, variant = "phishing") {
   if (document.getElementById("guardiao-web-overlay")) {
     return;
@@ -46,7 +41,6 @@ function showAlert(title, message, detail, variant = "phishing") {
     alertBox.appendChild(detailEl);
   }
 
-  // §4.1 / §4.3 item 4 — Saída do alerta, sem opção de prosseguir com o envio ou a navegação.
   const actionButton = document.createElement("button");
   actionButton.type = "button";
   actionButton.className = "guardiao-alert__button";
@@ -71,11 +65,7 @@ function showAlert(title, message, detail, variant = "phishing") {
   document.documentElement.appendChild(overlay);
 }
 
-/**
- * §2.2 — Resolve action vazio ou URL relativa dinamicamente.
- * Considera o atributo formaction do botão de envio (que prevalece sobre o action)
- * e a tag <base>, via document.baseURI.
- */
+// O formaction do botão tem prioridade. Para caminhos relativos, vale a base da página.
 function resolveFormAction(form, submitter) {
   const raw =
     submitter && submitter.hasAttribute("formaction")
@@ -93,9 +83,6 @@ function resolveFormAction(form, submitter) {
   }
 }
 
-/**
- * §2.5 — Verifica se destino do formulário é inseguro (http://).
- */
 function isInsecureDestination(url) {
   try {
     const parsed = new URL(url);
@@ -105,9 +92,7 @@ function isInsecureDestination(url) {
   }
 }
 
-/**
- * §2.6 Figura 7 — Bloqueio absoluto se destino HTTP (prevalece sobre aval positivo da API).
- */
+// Destino HTTP bloqueia o envio mesmo com parecer favorável da API (§2.6, Figura 7).
 function blockFormSubmission(form, destinationUrl) {
   showAlert(
     FORM_BLOCK_TITLE,
@@ -116,7 +101,6 @@ function blockFormSubmission(form, destinationUrl) {
     "form"
   );
 
-  // §4.3 item 4 — Alimenta o contador de formulários bloqueados exibido no popup.
   chrome.runtime
     .sendMessage({
       type: "FORM_BLOCKED",
@@ -126,9 +110,6 @@ function blockFormSubmission(form, destinationUrl) {
     .catch(() => {});
 }
 
-/**
- * §2.2 / §2.5 — Intercepta submit antes dos dados saírem do navegador.
- */
 function handleFormSubmit(event) {
   if (pageBlocked) {
     event.preventDefault();
@@ -150,10 +131,6 @@ function handleFormSubmit(event) {
   }
 }
 
-/**
- * §2.5 — document.querySelectorAll('form') e registro de listeners.
- * §2.2 — Cobre formulários modificados via JavaScript (capture phase no document).
- */
 function auditForms() {
   document.querySelectorAll("form").forEach((form) => {
     if (form.dataset.guardiaoAudited === "true") {
@@ -164,17 +141,13 @@ function auditForms() {
   });
 }
 
-/**
- * §4.1 RF1 — Consulta Safe Browsing ao carregar domínio e bloqueio se malicioso.
- */
 async function checkCurrentDomain() {
   const pageUrl = window.location.href;
 
-  // §2.4 — Minimização de dados: query string e fragmento não são enviados à API.
+  // A API recebe só a origem e o caminho.
   const checkedUrl = window.location.origin + window.location.pathname;
 
   try {
-    // §4.3 item 4 — Reinicia o estado da aba a cada carregamento de página.
     await chrome.runtime.sendMessage({
       type: "PAGE_LOADED",
       hostname: window.location.hostname,
