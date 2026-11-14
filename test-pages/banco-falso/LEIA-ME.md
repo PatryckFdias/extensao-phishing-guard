@@ -1,4 +1,4 @@
-# Banco falso (Bradesco) — simulação de phishing para o TCC
+# Banco falso (Bradesco): simulação de phishing para o TCC
 
 Página de **simulação acadêmica** que imita a tela de acesso do Bradesco, usada
 para demonstrar, no Cenário 2 (auditoria de formulários), a diferença entre ter

@@ -1,5 +1,5 @@
 /*
-  § TCC — Coletor de credenciais + servidor da página falsa.
+  TCC: Coletor de credenciais + servidor da página falsa.
   SIMULAÇÃO ACADÊMICA. Faz duas coisas num processo só, para rodar em UM único
   terminal:
     1) serve a página falsa do Bradesco e o e-mail falso (requisições GET);
