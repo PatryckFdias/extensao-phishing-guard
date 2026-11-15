@@ -45,9 +45,9 @@ Depois abra no navegador:
    `https://banco.bradesco.com.br/acesso-seguro`, mas o destino real é
    `http://localhost:9000/`.
 3. **Extensão ligada:** preencher CPF, agência, conta e senha, clicar em
-   "Entrar". Deve aparecer o alerta de bloqueio. Confirmar na aba Rede que a
-   requisição aparece como `net::ERR_BLOCKED_BY_CLIENT`, e que **nenhum**
-   arquivo novo apareceu na pasta de destino.
+   "Entrar". Deve aparecer o alerta de bloqueio. Confirmar que **nenhuma**
+   requisição apareceu na aba Rede (o envio é cancelado antes de sair) e que
+   **nenhum** arquivo novo apareceu na pasta de destino.
 4. **Extensão desligada:** repetir o envio. O navegador vai para a página
    "Dados capturados", que mostra o caminho do arquivo. Abrir a pasta e mostrar
    o `.txt` com as credenciais.
